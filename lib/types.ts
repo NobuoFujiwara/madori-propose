@@ -48,11 +48,48 @@ export interface RoomDetail {
   features: string[];
 }
 
+export interface RoomLayout {
+  roomName: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  roomType:
+    | "ldk"
+    | "bedroom"
+    | "bathroom"
+    | "toilet"
+    | "entrance"
+    | "hallway"
+    | "closet"
+    | "stairs"
+    | "balcony"
+    | "japanese"
+    | "utility"
+    | "other";
+}
+
+export interface DoorIndicator {
+  x: number;
+  y: number;
+  direction: "top" | "bottom" | "left" | "right";
+}
+
 export interface FloorDetail {
   floorNumber: number;
   floorName: string;
   rooms: RoomDetail[];
   asciiPlan: string;
+  roomLayouts?: RoomLayout[];
+  doors?: DoorIndicator[];
+  gridWidth?: number;
+  gridHeight?: number;
+}
+
+export interface GeneratedImage {
+  base64Data: string;
+  mimeType: string;
+  prompt: string;
 }
 
 export interface FloorPlanProposal {

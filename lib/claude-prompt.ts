@@ -18,6 +18,16 @@ export function buildSystemPrompt(): string {
 5. 建物の総面積が土地面積の建蔽率(一般的に60%)以内に収まるようにしてください。
 6. 提案理由は具体的にお客様のヒアリング内容に言及してください。
 
+## 間取り図の座標系ルール:
+各階について、部屋配置の座標データ(roomLayouts)を必ず含めてください。
+1. 1グリッド単位 = 約0.9m（半間）です。
+2. 座標は建物の左上を原点(0,0)とします。x軸は右方向、y軸は下方向です。
+3. 各部屋は矩形で指定します。部屋同士は隙間なく配置し、重ならないようにしてください。
+4. gridWidthとgridHeightは建物全体の外形サイズ（グリッド単位）です。
+5. roomTypeは以下から選択してください: ldk, bedroom, bathroom, toilet, entrance, hallway, closet, stairs, balcony, japanese, utility, other
+6. doorsは各ドアの中心座標と方向（top/bottom/left/right = ドアがある壁の方向）を指定してください。
+7. すべての部屋の矩形がgridWidth×gridHeightの範囲内に収まるようにしてください。
+
 ## 回答のJSON形式:
 {
   "planName": "プラン名（例: 3LDK+書斎 ゆとりの2階建て）",
@@ -43,7 +53,31 @@ export function buildSystemPrompt(): string {
           "features": ["特徴1", "特徴2"]
         }
       ],
-      "asciiPlan": "ASCII文字列の間取り図（この階のみ）"
+      "asciiPlan": "ASCII文字列の間取り図（この階のみ）",
+      "gridWidth": 12,
+      "gridHeight": 10,
+      "roomLayouts": [
+        {
+          "roomName": "LDK",
+          "x": 0,
+          "y": 0,
+          "width": 8,
+          "height": 5,
+          "roomType": "ldk"
+        },
+        {
+          "roomName": "玄関",
+          "x": 0,
+          "y": 5,
+          "width": 3,
+          "height": 3,
+          "roomType": "entrance"
+        }
+      ],
+      "doors": [
+        { "x": 1.5, "y": 8, "direction": "bottom" },
+        { "x": 4, "y": 5, "direction": "top" }
+      ]
     }
   ],
   "recommendations": [
